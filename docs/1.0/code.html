@@ -1,0 +1,277 @@
+<!doctype html>
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      name="viewport"
+    />
+    <title>WeChat Chat Screen</title>
+    <!-- Tailwind CSS v3 CDN with plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style data-purpose="typography">
+      /* Using standard system sans-serif font for native feel */
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+          Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+          'Segoe UI Symbol', 'Noto Color Emoji';
+        -webkit-tap-highlight-color: transparent;
+      }
+    </style>
+    <style data-purpose="custom-layout">
+      /* Standard WeChat bubble styles */
+      .chat-bubble-left {
+        position: relative;
+        background-color: #ffffff;
+        border-radius: 6px;
+        padding: 8px 12px;
+        max-width: 75%;
+        word-wrap: break-word;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #000000;
+      }
+      .chat-bubble-right {
+        position: relative;
+        background-color: #95ec69;
+        border-radius: 6px;
+        padding: 8px 12px;
+        max-width: 75%;
+        word-wrap: break-word;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #000000;
+      }
+      /* Fixed height for the message container to scroll */
+      .message-container {
+        height: calc(100vh - 104px - 56px); /* Status + Nav - Input bar */
+        overflow-y: auto;
+      }
+      /* Avatar rounding */
+      .avatar-rounded {
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body class="flex h-screen flex-col overflow-hidden bg-[#EDEDED]">
+    <!-- BEGIN: Status Bar -->
+    <header
+      class="flex items-center justify-between bg-[#EDEDED] px-4 pb-1 pt-1 text-[13px] font-medium text-black"
+      data-purpose="status-bar"
+    >
+      <div class="flex items-center">
+        <span>20:41</span>
+      </div>
+      <div class="flex items-center space-x-1.5">
+        <!-- Bluetooth icon approximation -->
+        <svg class="h-3.5 w-3.5" fill="currentColor" viewbox="0 0 24 24">
+          <path d="M7,7L17,17L12,22V2L17,7L7,17"></path>
+        </svg>
+        <!-- Signal icon -->
+        <svg class="h-3.5 w-3.5" fill="currentColor" viewbox="0 0 24 24">
+          <path d="M2,22H22V2L2,22Z"></path>
+        </svg>
+        <!-- WiFi icon -->
+        <svg class="h-3.5 w-3.5" fill="currentColor" viewbox="0 0 24 24">
+          <path
+            d="M12,21L15.6,16.2C14.6,15.45 13.35,15 12,15C10.65,15 9.4,15.45 8.4,16.2L12,21M12,3C7.95,3 4.21,4.34 1.2,6.6L3,9C5.5,7.12 8.62,6 12,6C15.38,6 18.5,7.12 21,9L22.8,6.6C19.79,4.34 16.05,3 12,3Z"
+          ></path>
+        </svg>
+        <!-- Battery icon -->
+        <div class="relative h-2.5 w-5 rounded-sm border border-black/40">
+          <div class="h-full w-4 bg-black"></div>
+        </div>
+      </div>
+    </header>
+    <!-- END: Status Bar -->
+    <!-- BEGIN: Navigation Bar -->
+    <nav
+      class="flex items-center justify-between border-b border-gray-300/30 bg-[#EDEDED] px-4 py-3"
+      data-purpose="main-navigation"
+    >
+      <div class="flex w-1/4 items-center">
+        <!-- Back Arrow -->
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path
+            d="M15 19l-7-7 7-7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          ></path>
+        </svg>
+        <span
+          class="-ml-1 rounded-full bg-[#D1D1D1] px-1.5 py-0.5 text-[10px] text-white"
+          >5</span
+        >
+      </div>
+      <div class="w-2/4 text-center">
+        <h1 class="text-[17px] font-bold">吴琳</h1>
+      </div>
+      <div class="flex w-1/4 justify-end">
+        <!-- Three dots menu -->
+        <svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24">
+          <path
+            d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+          ></path>
+        </svg>
+      </div>
+    </nav>
+    <!-- END: Navigation Bar -->
+    <!-- BEGIN: Chat Content Area -->
+    <main class="message-container flex-1 space-y-5 overflow-y-auto px-4 py-4">
+      <!-- Received Message 1 -->
+      <div class="flex items-start space-x-3">
+        <img
+          alt="Avatar"
+          class="avatar-rounded h-10 w-10 flex-shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqQICyUgGNPzoxCsjtlcj7k1rXw0b-hQwCSBRdlsNi2Jo_TaIBZoWLhWkXYSOARyerWqKLEJ9CQ856iiOHwetVcyjJ5cUSRliV79pnM1MbLchQ5CNau0lnUm_XzWPagfXV87Q7J_p7WtDTwxYV9seDxNthR23_mNjN6108JYOrkFpSdDLhPFj-nLWVguwWqfk39dND4-1MUakKKOsTfZL-LeFgG8oGRRuWn0vb106Vcg8DSw8YirV_sI9VMLxBV0kY9-klvHNQbW2Z"
+        />
+        <div class="chat-bubble-left">具有人及册及圈</div>
+      </div>
+      <!-- Received Message 2 -->
+      <div class="flex items-start space-x-3">
+        <img
+          alt="Avatar"
+          class="avatar-rounded h-10 w-10 flex-shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC3p2mZ9LfSD33n2kVVN8V-JhQ6jau6TA2O2Ilmo8ua--Rx7PDzqZsMjOXj-hE_Lw0ZsliZa64J3TvDP_mRyCY6kWg3G08jIjg1hqLS2l2kPmEhLvW5aI5biKL5hMGKIB8F9mEZ1O5PPjRXmAWFFP_N7qAF0Oc0Z87V6VB7DnGNMSxei4C8TKYTnS2tVfrMiywaObQSODzABDeInw5-n4vjZ_YsyAncbhNshG6L7AlBaMv8uFZZ7zJZggCiR7mwCe1xbI4uKXrEPjq"
+        />
+        <div class="chat-bubble-left">衣服都不改一下</div>
+      </div>
+      <!-- Sent Message 1 -->
+      <div class="flex items-start justify-end space-x-3">
+        <div class="chat-bubble-right">哈哈哈哈哈</div>
+        <!-- 用户头像（可替换） -->
+        <img
+          alt="User Avatar"
+          class="avatar-rounded h-10 w-10 flex-shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_EKCekT23wJefResKvCQthgpLHHeH3yJL75gZKAhesISGyt-lh9mrmoj6ifjzRR0ZH5yV7p9w_wzeQHnuvBP4LdNwNfxlyJATLPxzzpBVouFrkTOO4GhRpFtZN_Xi3JvgvSDKei7weSAjHJm4j_8-kEX7xJRW8QXaRtJqVTJN5tPiQ4GkfuY4XRno0Pixk_xYjp5ztNkACtPZmQigetBtWBkKkQkAYg3reGrgaMZajpueRMILcn0sV3EheViz2ZvsE2W84u8lPsQW"
+        />
+      </div>
+      <!-- Sent Message 2 -->
+      <div class="flex items-start justify-end space-x-3">
+        <div class="chat-bubble-right">到时候撞衫了</div>
+        <img
+          alt="User Avatar"
+          class="avatar-rounded h-10 w-10 flex-shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuByQoDEypTmc_8uDpwBGAcAjfgoziWan16u9mE1CxAmhSK_PFkTehDLq2cIPxW6Y_TILCyqLFWEWM2_nQBDJkUcFja4p2M58fAuEYYyt87pHltg47m4X8cLPThVDARwEdKq8o6N_XWgZcgFfnVSPzjrxeMfJphDDuS5KdaqfIa9i8GsNqrY4R3CKbtxSjHoIEeqHORG-E_8cEW6q6HHyC6hxn_5n_U0sOq1AObAEetgi3XCPZEAK3be38SUW7CsvKs4Bna6uNSG_V9Y"
+        />
+      </div>
+      <!-- Received Message 3 -->
+      <div class="flex items-start space-x-3">
+        <img
+          alt="Avatar"
+          class="avatar-rounded h-10 w-10 flex-shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTie-OvvR7TYWLJ-joCG6l9bUoJnkl3mcCr-7ofqKNmhO4VUrrr_o2MAwXUaaWbF0xHttmtanlB8AndEImjg59r3eZ7qlXAWoWKiBZXZiC7DyAvNjPL8ZxxfuQ14lXNWIyx-LZgxWF2OhJ7ySyZzGLYPOwakEFpWXlg3yRXB_KO4ioer-xyMa4h0dwqpGiCS0TjA5SQ7k0s1lDdeGH0KVwWOdQjxOo1hjh1SuXI4QqAWjjUonCGtkFcskFMefmqoDxqolo_6Ef6EZx"
+        />
+        <div class="chat-bubble-left px-2 py-1 text-2xl">🤣</div>
+      </div>
+      <!-- Timestamp 1 -->
+      <div class="text-center">
+        <span class="text-xs text-gray-400">周五 20:41</span>
+      </div>
+      <!-- Sent Message 3 (Image) -->
+      <div class="flex items-start justify-end space-x-3">
+        <div class="max-w-[160px] overflow-hidden rounded-lg border border-gray-200">
+          <img
+            alt="Image Message"
+            class="block h-auto w-full"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUf5Pc3qc0SNw3w6Uewj6WKdbi3Tx_zkTGPS77Y2SknMTDDPOZsZQoiEnh6HFDOlSzWvW9z1ndVVjAEDpf8YawZa2yqZwr9ziCaQUMMg-gtkhBa1oqebnbV3Jq2bBItaNnmMZ_6Ev30maKvx0pbdcRljeFU3EqIx3fqhq3PTnztmTGzgWVowetYKVtkZeaRGEAev8I9JrvDnnS63XVxX6NHvKv-W6TEaUEIZS-FuGAio0q-C9Nl9mKgg2T3uRZbgW3WqUOcrpSrKp-"
+          />
+        </div>
+        <img
+          alt="User Avatar"
+          class="avatar-rounded h-10 w-10 flex-shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnphcDWjC731Es6ZUsC6r6F-KcYMZoSVdeh0DZVrGAxrDmn9sBcgl-g1TPHor9MjIypjwvyYH_9WfqHDkm8hTKUMbHLL03GyPINn_XtvFd1LAz6H6Bvu02YrzAcJdSOlzmn1bKCVtCEN69sbUenQ4OhO5bZQrjp3wDvAjClXEqa7XO2DUzh9k3QWtkIyqI__CjH6Uvvgxa2na-_f62AV-PUi7rVupnNKkK0_io3QhMSzVDK9nOWRgVSsyTA4AqFWhlQK9nsu8MG9U4"
+        />
+      </div>
+      <!-- Sent Message 4 -->
+      <div class="flex items-start justify-end space-x-3">
+        <div class="chat-bubble-right">还挺多的</div>
+        <img
+          alt="User Avatar"
+          class="avatar-rounded h-10 w-10 flex-shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc5Wboi9-ZU4qicPOS0G-T_ZWZ7rWLeRx8qXF225pYynfMi9l_U8hhBd_-bP4QUqEafHHQkcT1aggy1Yk-1hXFYt9GHfzkdwOf0AwBov5F23Jb6DFaFXF2yf-dWyKleRDwbEROBLbfDuZ5doLCBYXSpCGlSNta3QOIU8RfslMlRvwYFJgIjQhFdCgvTAyAS7hMUEXkW6vr9rnxKIwy5sZWRc_f5UgC67GkY_aeSeJCYjP4kJERXJ9Lf2vPPHmt4woZUzWCw0JbKfXf"
+        />
+      </div>
+      <!-- Timestamp 2 -->
+      <div class="text-center">
+        <span class="text-xs text-gray-400">周五 21:19</span>
+      </div>
+      <!-- Received Message 4 -->
+      <div class="flex items-start space-x-3">
+        <img
+          alt="Avatar"
+          class="avatar-rounded h-10 w-10 flex-shrink-0"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsxDNf9CDucZl_U_sCDevflJtYnDzhOU_-ZQNM8T2AYTm8d7EO4y10ERFYnUN5Qt-b-QEkgSTvJnEcmptppDnxJ-oH_MjlwBLcbVCxA0LzQLUgFeJi4OcsxIJD_-miGAqXRFuj4YG_NJ33O_qktqE7pFsVR32wCc2KWdXe8MkohUcGC-9OvoutiuMz60bXKXlAWg6AUBfVpvTve1jZIEbYp2W776uaN6IsQYXiKx8ok1YiSna6LukcL4WZ8VuIj_FRPQhdCNL5_ZXR"
+        />
+        <div class="chat-bubble-left">哈哈哈哈哈</div>
+      </div>
+    </main>
+    <!-- END: Chat Content Area -->
+    <!-- BEGIN: Bottom Toolbar -->
+    <footer
+      class="flex items-center space-x-3 border-t border-gray-300/50 bg-[#F7F7F7] px-3 py-2 pb-8"
+      data-purpose="bottom-toolbar"
+    >
+      <!-- Voice Icon -->
+      <div class="p-1">
+        <svg
+          class="h-7 w-7 text-black/80"
+          fill="none"
+          stroke="currentColor"
+          viewbox="0 0 24 24"
+        >
+          <path
+            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          ></path>
+        </svg>
+      </div>
+      <!-- Input Box -->
+      <div class="flex-1">
+        <input
+          class="w-full rounded-md border-none bg-white px-3 py-2 text-[16px] focus:ring-0"
+          placeholder=""
+          type="text"
+        />
+      </div>
+      <!-- Emoji Icon -->
+      <div class="p-1">
+        <svg
+          class="h-7 w-7 text-black/80"
+          fill="none"
+          stroke="currentColor"
+          viewbox="0 0 24 24"
+        >
+          <path
+            d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          ></path>
+        </svg>
+      </div>
+      <!-- Add Icon -->
+      <div class="p-1">
+        <svg
+          class="h-7 w-7 text-black/80"
+          fill="none"
+          stroke="currentColor"
+          viewbox="0 0 24 24"
+        >
+          <path
+            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          ></path>
+        </svg>
+      </div>
+    </footer>
+    <!-- END: Bottom Toolbar -->
+  </body>
+</html>
