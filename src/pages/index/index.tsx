@@ -1,6 +1,7 @@
 import './index.scss';
 import AvatarUploader from '@/components/AvatarUploader';
 import { getState, setState } from '@/store';
+import { Button } from '@nutui/nutui-react-taro';
 import { View, Text, Input } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useState } from 'react';
@@ -64,6 +65,7 @@ export default function Index() {
           />
         </View>
       </View>
+      <Button type='primary'>Primary</Button>
 
       {/* 进入预览按钮 */}
       <View

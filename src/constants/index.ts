@@ -7,7 +7,11 @@ export interface MockMessage {
 }
 
 export const MOCK_MESSAGES: MockMessage[] = [
-  { id: '1', type: 'received', content: '具有人及册及圈' },
+  {
+    id: '1',
+    type: 'received',
+    content: '我通过了你的好友验证请求，现在我们可以开始聊天了'
+  },
   { id: '2', type: 'received', content: '衣服都不改一下' },
   { id: '3', type: 'sent', content: '哈哈哈哈哈' },
   { id: '4', type: 'sent', content: '到时候撞衫了' },

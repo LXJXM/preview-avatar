@@ -9,7 +9,19 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
   const baseConfig: UserConfigExport<'webpack5'> = {
     projectName: 'preview-avatar',
     date: '2026-3-8',
-    designWidth: 750,
+    designWidth(input) {
+      // 配置 NutUI 375 尺寸
+      if (
+        typeof input === 'object' &&
+        'file' in input &&
+        typeof input.file === 'string' &&
+        input.file.replace(/\\+/g, '/').indexOf('@nutui') > -1
+      ) {
+        return 375;
+      }
+      // 全局使用 Taro 默认的 750 尺寸
+      return 750;
+    },
     deviceRatio: {
       640: 2.34 / 2,
       750: 1,
@@ -18,7 +30,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
-    plugins: ['@tarojs/plugin-generator'],
+    plugins: ['@tarojs/plugin-generator', '@tarojs/plugin-html'],
     defineConstants: {},
     copy: {
       patterns: [],
