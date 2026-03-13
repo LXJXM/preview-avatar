@@ -1,7 +1,6 @@
 import './index.scss';
 import AvatarUploader from '@/components/AvatarUploader';
 import { getState, setState } from '@/store';
-import { Button } from '@nutui/nutui-react-taro';
 import { View, Text, Input } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useState } from 'react';
