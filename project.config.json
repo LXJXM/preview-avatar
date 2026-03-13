@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "dist/",
   "projectname": "preview-avatar",
-  "description": "微信头像预览",
-  "appid": "wx5dc077f0346adb3e",
+  "description": "圈圈预览",
+  "appid": "wxad4f62792a23752c",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -35,5 +35,6 @@
     "ignore": [],
     "include": []
   },
-  "editorSetting": {}
+  "editorSetting": {},
+  "libVersion": "3.14.3"
 }

@@ -65,7 +65,6 @@ export default function Index() {
           />
         </View>
       </View>
-      <Button type='primary'>Primary</Button>
 
       {/* 进入预览按钮 */}
       <View
