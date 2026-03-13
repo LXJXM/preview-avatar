@@ -2,7 +2,6 @@ export interface MockMessage {
   id: string;
   type: 'sent' | 'received';
   content: string;
-  isEmoji?: boolean;
   timestamp?: string;
 }
 
@@ -15,7 +14,7 @@ export const MOCK_MESSAGES: MockMessage[] = [
   { id: '2', type: 'received', content: '衣服都不改一下' },
   { id: '3', type: 'sent', content: '哈哈哈哈哈' },
   { id: '4', type: 'sent', content: '到时候撞衫了' },
-  { id: '5', type: 'received', content: '🤣', isEmoji: true },
+  { id: '5', type: 'received', content: '🤣' },
   { id: '6', type: 'sent', content: '还挺多的' },
   {
     id: '7',

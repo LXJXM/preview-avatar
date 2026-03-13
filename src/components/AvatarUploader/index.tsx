@@ -1,4 +1,5 @@
 import { twClsx } from '@/utils/tw';
+import { Plus } from '@nutui/icons-react-taro';
 import { View, Image, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useState } from 'react';
@@ -55,7 +56,7 @@ export default function AvatarUploader({
           <Image className='h-full w-full' src={avatarPath} mode='aspectFill' />
         ) : (
           <View className='flex flex-col items-center gap-[8rpx]'>
-            <Text className='text-[48rpx] text-gray-400'>+</Text>
+            <Plus size='32' color='#9ca3af' />
             <Text className='text-[24rpx] text-gray-400'>上传头像</Text>
           </View>
         )}

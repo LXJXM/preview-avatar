@@ -1,3 +1,4 @@
+import { ArrowLeft, More } from '@nutui/icons-react-taro';
 import { View, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 
@@ -20,13 +21,13 @@ export default function ChatNavBar({ title }: ChatNavBarProps) {
           className='absolute left-[32rpx] flex items-center'
           onClick={() => Taro.navigateBack()}
         >
-          <Text className='text-[36rpx]'>{'<'}</Text>
+          <ArrowLeft size='20' color='#000' />
         </View>
         {/* 标题 */}
         <Text className='text-[34rpx] font-bold'>{title}</Text>
         {/* 右侧菜单 */}
         <View className='absolute right-[32rpx]'>
-          <Text className='text-[40rpx]'>···</Text>
+          <More size='20' color='#000' />
         </View>
       </View>
     </View>

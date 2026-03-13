@@ -6,15 +6,9 @@ interface ChatMessageProps {
   type: 'sent' | 'received';
   content: string;
   avatarUrl: string;
-  isEmoji?: boolean;
 }
 
-export default function ChatMessage({
-  type,
-  content,
-  avatarUrl,
-  isEmoji = false
-}: ChatMessageProps) {
+export default function ChatMessage({ type, content, avatarUrl }: ChatMessageProps) {
   const avatar = (
     <Image
       className='h-[80rpx] w-[80rpx] flex-shrink-0 rounded-[8rpx]'
@@ -31,9 +25,7 @@ export default function ChatMessage({
       )}
     >
       {avatar}
-      <ChatBubble type={type} isEmoji={isEmoji}>
-        {content}
-      </ChatBubble>
+      <ChatBubble type={type}>{content}</ChatBubble>
     </View>
   );
 }

@@ -4,17 +4,13 @@ import ChatToolbar from '@/components/ChatToolbar';
 import { MOCK_MESSAGES, CHAT_CONTACT_NAME, DEFAULT_AVATAR } from '@/constants';
 import { View, Text, ScrollView } from '@tarojs/components';
 
-interface ChatSelfViewProps {
+interface Props {
   avatarPath: string;
   nickname: string;
   chatMessage: string;
 }
 
-export default function ChatSelfView({
-  avatarPath,
-  nickname,
-  chatMessage
-}: ChatSelfViewProps) {
+export default function ChatSelfView({ avatarPath, chatMessage }: Props) {
   // 替换 mock 数据中的发送消息为用户自定义消息
   const messages = MOCK_MESSAGES.map((msg, index) => {
     if (msg.type === 'sent' && index === 2) {
@@ -39,7 +35,6 @@ export default function ChatSelfView({
                 type={msg.type}
                 content={msg.content}
                 avatarUrl={msg.type === 'sent' ? avatarPath : DEFAULT_AVATAR}
-                isEmoji={msg.isEmoji}
               />
             </View>
           ))}

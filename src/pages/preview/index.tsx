@@ -3,6 +3,7 @@ import ChatOtherView from './scenes/ChatOtherView';
 import ChatSelfView from './scenes/ChatSelfView';
 import MomentsView from './scenes/MomentsView';
 import ProfileView from './scenes/ProfileView';
+import { DEFAULT_AVATAR } from '@/constants';
 import { getState } from '@/store';
 import { twClsx } from '@/utils/tw';
 import { View, Text, Swiper, SwiperItem } from '@tarojs/components';
@@ -57,7 +58,7 @@ export default function Preview() {
       >
         <SwiperItem>
           <ChatSelfView
-            avatarPath={avatarPath}
+            avatarPath={avatarPath || DEFAULT_AVATAR}
             nickname={nickname}
             chatMessage={chatMessage}
           />
